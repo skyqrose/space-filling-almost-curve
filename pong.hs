@@ -24,5 +24,7 @@ appLoop renderer = do
       qPressed = any eventIsQPress events
   rendererDrawColor renderer $= V4 0 0 255 255
   clear renderer
+  rendererDrawColor renderer $= V4 255 0 0 255
+  fillRect renderer $ Just (Rectangle (P $ V2 10 20) (V2 30 10))
   present renderer
   unless qPressed (appLoop renderer)
