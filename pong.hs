@@ -23,12 +23,16 @@ appLoop renderer = do
             keysymKeycode (keyboardEventKeysym keyboardEvent) == KeycodeQ
           _ -> False
       qPressed = any eventIsQPress events
+  drawMain renderer
+  unless qPressed (appLoop renderer)
+
+drawMain :: Renderer -> IO ()
+drawMain renderer = do
   rendererDrawColor renderer $= V4 0 0 255 255
   clear renderer
   rendererDrawColor renderer $= V4 255 0 0 255
   fillRect renderer $ Just (Rectangle (P $ V2 10 20) (V2 30 10))
   present renderer
-  unless qPressed (appLoop renderer)
 
 modelToView :: (RealFrac a) => V2 a -> Point V2 CInt
 modelToView model = let
