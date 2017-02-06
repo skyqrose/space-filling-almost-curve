@@ -5,6 +5,8 @@ import Linear (V4(..))
 import Control.Monad (unless)
 import Foreign.C.Types
 
+-- based on the starter code in the docs
+-- http://hackage.haskell.org/package/sdl2-2.1.3.1/docs/SDL.html
 main :: IO ()
 main = do
   initializeAll
