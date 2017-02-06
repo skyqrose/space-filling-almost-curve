@@ -35,7 +35,7 @@ drawMain renderer = do
   rendererDrawColor renderer $= V4 0 255 0 255
   let
     xs :: [BinStr]
-    xs = generateStrings 6
+    xs = generateStrings 8
     points :: (RealFrac a) => [V2 a]
     points = map (\x -> fmap toReal (forward x)) xs
     pairs = zip points (tail points)
@@ -48,8 +48,8 @@ drawMain renderer = do
 modelToView :: (RealFrac a) => V2 a -> Point V2 CInt
 modelToView model = let
     o00 :: Point V2 CInt
-    o00 = P $ V2 (CInt 10) (CInt 110)
-    scale = V2 100 (-100)
+    o00 = P $ V2 (CInt 10) (CInt 510)
+    scale = V2 500 (-500)
   in
     o00 + (P $ fmap round (model * scale))
 
