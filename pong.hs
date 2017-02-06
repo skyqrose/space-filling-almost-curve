@@ -1,5 +1,5 @@
 import Prelude hiding (reverse)
-import Data.Text hiding (any, reverse)
+import Data.Text hiding (any, reverse, map)
 import SDL
 import Linear (V4(..))
 import Control.Monad (unless)
@@ -42,7 +42,7 @@ modelToView model = let
   in
     o00 + (P $ fmap round (model * scale))
 
-data BinStr = BinStr [Bool]
+data BinStr = BinStr [Bool] deriving (Show)
 
 forward :: BinStr -> V2 BinStr
 forward (BinStr a) = let
@@ -67,3 +67,14 @@ toReal :: (RealFrac a) => BinStr -> a
 toReal (BinStr []) = 0
 toReal (BinStr (True:xs)) = 0.5 + 0.5 * (toReal $ BinStr xs)
 toReal (BinStr (False:xs)) = 0.0 + 0.5 * (toReal $ BinStr xs)
+
+prepend :: Bool -> BinStr -> BinStr
+prepend b (BinStr a) = BinStr (b:a)
+
+generateStrings :: Integer -> [BinStr]
+generateStrings 0 = [BinStr []]
+generateStrings n | n > 0 = let
+    prev :: [BinStr]
+    prev = generateStrings (n-1)
+  in
+    (map (prepend False) prev) ++ (map (prepend True) prev)
