@@ -3,6 +3,7 @@ import Data.Text hiding (any)
 import SDL
 import Linear (V4(..))
 import Control.Monad (unless)
+import Foreign.C.Types
 
 main :: IO ()
 main = do
@@ -28,3 +29,11 @@ appLoop renderer = do
   fillRect renderer $ Just (Rectangle (P $ V2 10 20) (V2 30 10))
   present renderer
   unless qPressed (appLoop renderer)
+
+modelToView :: (RealFrac a) => V2 a -> Point V2 CInt
+modelToView model = let
+    o00 :: Point V2 CInt
+    o00 = P $ V2 (CInt 10) (CInt 110)
+    scale = V2 100 100
+  in
+    o00 + (P $ fmap round (model * scale))
