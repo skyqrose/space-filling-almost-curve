@@ -10,6 +10,7 @@ main = do
   initializeAll
   window <- createWindow (Data.Text.pack "My SDL Application") defaultWindow
   renderer <- createRenderer window (-1) defaultRenderer
+  drawMain renderer
   appLoop renderer
 
 appLoop :: Renderer -> IO ()
@@ -22,7 +23,6 @@ appLoop renderer = do
             keysymKeycode (keyboardEventKeysym keyboardEvent) == KeycodeQ
           _ -> False
       qPressed = any eventIsQPress events
-  drawMain renderer
   unless qPressed (appLoop renderer)
 
 drawMain :: Renderer -> IO ()
