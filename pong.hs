@@ -32,6 +32,15 @@ drawMain renderer = do
   rendererDrawColor renderer $= V4 255 0 0 255
   drawLine renderer (modelToView (V2 0 0)) (modelToView (V2 1 0))
   drawLine renderer (modelToView (V2 0 0)) (modelToView (V2 0 1))
+  rendererDrawColor renderer $= V4 0 255 0 255
+  let
+    xs :: [BinStr]
+    xs = generateStrings 6
+    points :: (RealFrac a) => [V2 a]
+    points = map (\x -> fmap toReal (forward x)) xs
+  print xs
+  print points
+  mapM (\p -> drawPoint renderer (modelToView p)) points
   present renderer
 
 modelToView :: (RealFrac a) => V2 a -> Point V2 CInt
