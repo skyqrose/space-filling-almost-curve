@@ -1,5 +1,5 @@
--- import Prelude
-import Data.Text hiding (any)
+import Prelude hiding (reverse)
+import Data.Text hiding (any, reverse)
 import SDL
 import Linear (V4(..))
 import Control.Monad (unless)
@@ -42,4 +42,28 @@ modelToView model = let
   in
     o00 + (P $ fmap round (model * scale))
 
+data BinStr = BinStr [Bool]
 
+forward :: BinStr -> V2 BinStr
+forward (BinStr a) = let
+    (xs, ys) = deinterlace a
+  in
+    V2 (BinStr xs) (BinStr ys)
+reverse :: V2 BinStr -> BinStr
+reverse (V2 (BinStr xs) (BinStr ys)) = BinStr $ interlace (xs, ys)
+
+deinterlace :: [a] -> ([a], [a])
+deinterlace [] = ([], [])
+deinterlace (x:y:rest) = let
+    (xs, ys) = deinterlace rest
+  in
+    (x:xs, y:ys)
+
+interlace :: ([a], [a]) -> [a]
+interlace ([], []) = []
+interlace (x:xs, y:ys) = x:y:(interlace (xs, ys))
+
+toReal :: (RealFrac a) => BinStr -> a
+toReal (BinStr []) = 0
+toReal (BinStr (True:xs)) = 0.5 + 0.5 * (toReal $ BinStr xs)
+toReal (BinStr (False:xs)) = 0.0 + 0.5 * (toReal $ BinStr xs)
