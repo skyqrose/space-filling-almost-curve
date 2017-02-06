@@ -1,5 +1,5 @@
 import Prelude hiding (reverse)
-import Data.Text hiding (any, reverse, map)
+import qualified Data.Text as Text
 import SDL
 import Linear (V4(..))
 import Control.Monad (unless)
@@ -8,7 +8,7 @@ import Foreign.C.Types
 main :: IO ()
 main = do
   initializeAll
-  window <- createWindow (Data.Text.pack "My SDL Application") defaultWindow
+  window <- createWindow (Text.pack "My SDL Application") defaultWindow
   renderer <- createRenderer window (-1) defaultRenderer
   drawMain renderer
   appLoop renderer
@@ -38,9 +38,11 @@ drawMain renderer = do
     xs = generateStrings 6
     points :: (RealFrac a) => [V2 a]
     points = map (\x -> fmap toReal (forward x)) xs
+    pairs = zip points (tail points)
   print xs
   print points
-  mapM (\p -> drawPoint renderer (modelToView p)) points
+  --mapM (\pt -> drawPoint renderer (modelToView pt)) points
+  mapM (\(p1, p2) -> drawLine renderer (modelToView p1) (modelToView p2)) pairs
   present renderer
 
 modelToView :: (RealFrac a) => V2 a -> Point V2 CInt
