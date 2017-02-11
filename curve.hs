@@ -43,7 +43,6 @@ drawMain renderer resolution = do
     pairs = zip points (tail points)
   print xs
   print points
-  --mapM (\pt -> drawPoint renderer (modelToView pt)) points
   mapM (\(p1, p2) -> drawLine renderer (modelToView p1) (modelToView p2)) pairs
   present renderer
 
