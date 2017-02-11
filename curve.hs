@@ -15,16 +15,18 @@ main = do
   drawMain renderer 8
   appLoop renderer
 
+eventIsQPress :: Event -> Bool
+eventIsQPress event =
+  case eventPayload event of
+    KeyboardEvent keyboardEvent ->
+      keyboardEventKeyMotion keyboardEvent == Pressed &&
+      keysymKeycode (keyboardEventKeysym keyboardEvent) == KeycodeQ
+    _ -> False
+
 appLoop :: Renderer -> IO ()
 appLoop renderer = do
   events <- pollEvents
-  let eventIsQPress event =
-        case eventPayload event of
-          KeyboardEvent keyboardEvent ->
-            keyboardEventKeyMotion keyboardEvent == Pressed &&
-            keysymKeycode (keyboardEventKeysym keyboardEvent) == KeycodeQ
-          _ -> False
-      qPressed = any eventIsQPress events
+  let qPressed = any eventIsQPress events
   unless qPressed (appLoop renderer)
 
 drawMain :: Renderer -> Integer -> IO ()
