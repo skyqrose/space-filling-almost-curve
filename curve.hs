@@ -1,4 +1,4 @@
-import Prelude hiding (reverse)
+import Prelude
 import qualified Data.Text as Text
 import SDL
 import Linear (V4(..))
@@ -39,7 +39,7 @@ drawMain renderer = do
     xs :: [BinStr]
     xs = generateStrings 8
     points :: (RealFrac a) => [V2 a]
-    points = map (\x -> fmap toReal (forward x)) xs
+    points = map (\x -> fmap toReal (curveFunction x)) xs
     pairs = zip points (tail points)
   print xs
   print points
@@ -57,13 +57,11 @@ modelToView model = let
 
 data BinStr = BinStr [Bool] deriving (Show)
 
-forward :: BinStr -> V2 BinStr
-forward (BinStr a) = let
+curveFunction :: BinStr -> V2 BinStr
+curveFunction (BinStr a) = let
     (xs, ys) = deinterlace a
   in
     V2 (BinStr xs) (BinStr ys)
-reverse :: V2 BinStr -> BinStr
-reverse (V2 (BinStr xs) (BinStr ys)) = BinStr $ interlace (xs, ys)
 
 deinterlace :: [a] -> ([a], [a])
 deinterlace [] = ([], [])
@@ -71,10 +69,6 @@ deinterlace (x:y:rest) = let
     (xs, ys) = deinterlace rest
   in
     (x:xs, y:ys)
-
-interlace :: ([a], [a]) -> [a]
-interlace ([], []) = []
-interlace (x:xs, y:ys) = x:y:(interlace (xs, ys))
 
 toReal :: (RealFrac a) => BinStr -> a
 toReal (BinStr []) = 0
