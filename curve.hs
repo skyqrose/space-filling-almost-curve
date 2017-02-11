@@ -12,7 +12,7 @@ main = do
   initializeAll
   window <- createWindow (Text.pack "My SDL Application") defaultWindow
   renderer <- createRenderer window (-1) defaultRenderer
-  drawMain renderer
+  drawMain renderer 8
   appLoop renderer
 
 appLoop :: Renderer -> IO ()
@@ -27,8 +27,8 @@ appLoop renderer = do
       qPressed = any eventIsQPress events
   unless qPressed (appLoop renderer)
 
-drawMain :: Renderer -> IO ()
-drawMain renderer = do
+drawMain :: Renderer -> Integer -> IO ()
+drawMain renderer resolution = do
   rendererDrawColor renderer $= V4 0 0 0 255
   clear renderer
   rendererDrawColor renderer $= V4 255 0 0 255
@@ -37,7 +37,7 @@ drawMain renderer = do
   rendererDrawColor renderer $= V4 0 255 0 255
   let
     xs :: [BinStr]
-    xs = generateStrings 8
+    xs = generateStrings resolution
     points :: (RealFrac a) => [V2 a]
     points = map (\x -> fmap toReal (curveFunction x)) xs
     pairs = zip points (tail points)
