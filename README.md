@@ -1,8 +1,8 @@
 ![A computer generated drawing of a space filing curve. It's like the Hilbert Curve but with more zig zags](sample_drawing.png)
 
-This is a short program to satisfy a mathematical curiosity and practice Haskell. It's not meant to show off my programming. I'm still learning!
+This is a short program to satisfy a mathematical curiosity and practice Haskell.
 
-After watching [this video](https://www.youtube.com/watch?v=DuiryHHTrjU) on Hilbert Curves, and seeing that space filling curves are just functions from $R$ to $R^2$ with some extra properties, I was curious whether the following function from would have some of the same properties:
+After watching [this video](https://www.youtube.com/watch?v=DuiryHHTrjU) on Hilbert Curves, and seeing that space filling curves are just functions from ℝ to ℝ^2 with some extra properties, I was curious whether the following function from would have some of the same properties:
 
 * Take the binary expansion of a number from 0 to 1. 
 * Take every second digit as part of the result's x coordinate.
@@ -12,7 +12,7 @@ e.g. 0.abcdefgh -> 0.aceg x 0.bdfh
 
 The requirements for a space filling curve ([14:00 in the video](https://www.youtube.com/watch?v=DuiryHHTrjU#t=14m)) are
 
-1. It's a function from $R$ to $R^2$.
+1. It's a function from ℝ to ℝ^2.
 2. It's a curve (it's continuous).
 3. It fills every point in the unit square.
 
